@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consulta mesa electoral | Área Campo de Gibraltar</title>
+  <meta name="description" content="Comprueba si te ha tocado formar parte de una mesa electoral en La Línea de la Concepción.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --rojo:#c9141b;
+      --rojo-osc:#990e14;
+      --blanco:#ffffff;
+      --gris:#667085;
+      --gris-borde:#e5e7eb;
+      --fondo:#f7f7f8;
+      --texto:#111827;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--texto);
+      background:linear-gradient(180deg,#fff 0,#fff 180px,var(--fondo) 180px);
+    }
+    .topbar{
+      background:var(--rojo);
+      color:#fff;
+      padding:10px 16px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      font-size:13px;
+      text-align:center;
+    }
+    .wrap{max-width:860px;margin:0 auto;padding:18px 16px 40px}
+    .brand{
+      background:#fff;
+      border:1px solid var(--gris-borde);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(17,24,39,.06);
+    }
+    .brand-name{
+      display:inline-block;
+      background:var(--rojo);
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      padding:8px 12px;
+      border-radius:999px;
+      margin-bottom:12px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:clamp(28px,6vw,46px);
+      line-height:1.02;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+    .lead{
+      margin:0;
+      color:#344054;
+      font-size:16px;
+      line-height:1.55;
+    }
+    .search-card{
+      margin-top:18px;
+      background:#fff;
+      border:1px solid var(--gris-borde);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(17,24,39,.06);
+    }
+    label{
+      display:block;
+      font-size:14px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+    .search-row{display:flex;gap:10px;flex-direction:column}
+    input{
+      width:100%;
+      border:1px solid #d0d5dd;
+      border-radius:14px;
+      padding:16px;
+      font-size:16px;
+      outline:none;
+      transition:border-color .2s, box-shadow .2s;
+      background:#fff;
+    }
+    input:focus{border-color:var(--rojo); box-shadow:0 0 0 4px rgba(201,20,27,.12)}
+    button{
+      border:0;
+      border-radius:14px;
+      background:var(--rojo);
+      color:#fff;
+      padding:16px 18px;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      transition:background .2s, transform .04s;
+    }
+    button:hover{background:var(--rojo-osc)}
+    button:active{transform:translateY(1px)}
+    .helper{margin:10px 2px 0;color:var(--gris);font-size:13px;line-height:1.45}
+    .stats{margin-top:14px;font-size:13px;color:var(--gris)}
+    .results{margin-top:18px;display:grid;gap:12px}
+    .result{
+      background:#fff;
+      border:1px solid var(--gris-borde);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 8px 24px rgba(17,24,39,.05);
+    }
+    .badge{
+      display:inline-block;
+      background:#fee4e2;
+      color:#b42318;
+      border-radius:999px;
+      padding:7px 11px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .name{font-size:20px;font-weight:800;line-height:1.15;margin:0 0 8px}
+    .role{margin:0;color:#344054;font-size:15px;font-weight:600}
+    .empty,.notice{
+      margin-top:18px;
+      background:#fff;
+      border:1px dashed #d0d5dd;
+      border-radius:18px;
+      padding:18px;
+      color:#475467;
+      line-height:1.5;
+    }
+    .footer{margin-top:22px;color:#667085;font-size:12px;text-align:center}
+    .disclaimer{margin-top:8px}
+    @media (min-width: 700px){
+      .wrap{padding:24px 20px 48px}
+      .search-row{flex-direction:row}
+      .search-row input{flex:1}
+      .search-row button{width:190px}
+      .search-card{padding:18px}
+      .result{padding:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Consulta ciudadana · Mesa electoral 2026</div>
+  <main class="wrap">
+    <section class="brand">
+      <div class="brand-name">Área Campo de Gibraltar</div>
+      <h1>Comprueba si te ha tocado mesa electoral</h1>
+      <p class="lead">Introduce tus <strong>dos apellidos</strong> para buscar en el listado. La web te mostrará tu nombre completo y el cargo asignado: presidente/a, vocal, suplencia u otros.</p>
+    </section>
+
+    <section class="search-card">
+      <label for="query">Escribe tus dos apellidos</label>
+      <div class="search-row">
+        <input id="query" type="text" placeholder="Ejemplo: García Pérez" autocomplete="name" />
+        <button id="searchBtn">Buscar</button>
+      </div>
+      <p class="helper">Consejo: no hace falta poner tildes. También funciona con mayúsculas o minúsculas.</p>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <div id="message" class="notice">Consulta optimizada para móvil. Escribe los apellidos y pulsa en buscar.</div>
+    <section id="results" class="results" aria-live="polite"></section>
+
+    <div class="footer">
+      <div>Especial de servicio público de <strong>Área Campo de Gibraltar</strong></div>
+      <div class="disclaimer">Verifica siempre cualquier duda con la notificación oficial o la administración competente.</div>
+    </div>
+  </main>
+  <script src="data.js"></script>
+  <script>
+    const resultsEl = document.getElementById('results');
+    const messageEl = document.getElementById('message');
+    const statsEl = document.getElementById('stats');
+    const inputEl = document.getElementById('query');
+    const total = personas.length;
+    statsEl.textContent = `${total} registros cargados`;
+
+    function normalize(text) {
+      return (text || '')
+        .toString()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9ñ\s]/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    const enriched = personas.map(p => ({
+      ...p,
+      _norm: normalize(p.nombre),
+    }));
+
+    function search() {
+      const raw = inputEl.value.trim();
+      const q = normalize(raw);
+      resultsEl.innerHTML = '';
+      if (!q) {
+        messageEl.className = 'notice';
+        messageEl.textContent = 'Introduce al menos un apellido para realizar la búsqueda.';
+        return;
+      }
+
+      const terms = q.split(' ').filter(Boolean);
+      const found = enriched.filter(p => terms.every(t => p._norm.includes(t)));
+
+      if (!found.length) {
+        messageEl.className = 'empty';
+        messageEl.textContent = 'No aparece ninguna coincidencia con esos apellidos. Revisa si están bien escritos o prueba sin tildes compuestas.';
+        return;
+      }
+
+      messageEl.className = 'notice';
+      messageEl.textContent = found.length === 1
+        ? 'Se ha encontrado 1 coincidencia.'
+        : `Se han encontrado ${found.length} coincidencias.`;
+
+      found
+        .sort((a,b) => a.nombre.localeCompare(b.nombre, 'es'))
+        .forEach(item => {
+          const article = document.createElement('article');
+          article.className = 'result';
+          article.innerHTML = `
+            <div class="badge">Resultado</div>
+            <h2 class="name">${item.nombre}</h2>
+            <p class="role">Cargo: <strong>${item.cargo}</strong></p>
+          `;
+          resultsEl.appendChild(article);
+        });
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', search);
+    inputEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter') search();
+    });
+  </script>
+</body>
+</html>
