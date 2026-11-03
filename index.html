@@ -1,283 +1,62 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <!-- Analytics: only loaded after explicit consent -->
-  <script>
-    const ANALYTICS_ID = 'G-4C4MCX08R1';
-    function enableAnalytics() {
-      if (window.analyticsEnabled) return;
-      window.analyticsEnabled = true;
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function(){dataLayer.push(arguments);};
-      gtag('js', new Date());
-      gtag('config', ANALYTICS_ID, {anonymize_ip:true});
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ANALYTICS_ID;
-      document.head.appendChild(script);
-    }
-    if (localStorage.getItem('analytics-consent') === 'yes') enableAnalytics();
-  </script>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Consulta mesa electoral | Área Campo de Gibraltar</title>
-  <meta name="description" content="Comprueba si te ha tocado formar parte de una mesa electoral en La Línea de la Concepción.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --rojo:#c9141b;
-      --rojo-osc:#990e14;
-      --blanco:#ffffff;
-      --gris:#667085;
-      --gris-borde:#e5e7eb;
-      --fondo:#f7f7f8;
-      --texto:#111827;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--texto);
-      background:linear-gradient(180deg,#fff 0,#fff 180px,var(--fondo) 180px);
-    }
-    .topbar{
-      background:var(--rojo);
-      color:#fff;
-      padding:10px 16px;
-      font-weight:800;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      font-size:13px;
-      text-align:center;
-    }
-    .wrap{max-width:860px;margin:0 auto;padding:18px 16px 40px}
-    .brand{
-      background:#fff;
-      border:1px solid var(--gris-borde);
-      border-radius:18px;
-      padding:18px;
-      box-shadow:0 10px 30px rgba(17,24,39,.06);
-    }
-    .brand-name{
-      display:inline-block;
-      background:var(--rojo);
-      color:#fff;
-      font-weight:800;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      padding:8px 12px;
-      border-radius:999px;
-      margin-bottom:12px;
-    }
-    h1{
-      margin:0 0 10px;
-      font-size:clamp(28px,6vw,46px);
-      line-height:1.02;
-      font-weight:800;
-      letter-spacing:-.03em;
-    }
-    .lead{
-      margin:0;
-      color:#344054;
-      font-size:16px;
-      line-height:1.55;
-    }
-    .search-card{
-      margin-top:18px;
-      background:#fff;
-      border:1px solid var(--gris-borde);
-      border-radius:18px;
-      padding:16px;
-      box-shadow:0 10px 30px rgba(17,24,39,.06);
-    }
-    label{
-      display:block;
-      font-size:14px;
-      font-weight:700;
-      margin-bottom:10px;
-    }
-    .search-row{display:flex;gap:10px;flex-direction:column}
-    input{
-      width:100%;
-      border:1px solid #d0d5dd;
-      border-radius:14px;
-      padding:16px;
-      font-size:16px;
-      outline:none;
-      transition:border-color .2s, box-shadow .2s;
-      background:#fff;
-    }
-    input:focus{border-color:var(--rojo); box-shadow:0 0 0 4px rgba(201,20,27,.12)}
-    button{
-      border:0;
-      border-radius:14px;
-      background:var(--rojo);
-      color:#fff;
-      padding:16px 18px;
-      font-size:16px;
-      font-weight:800;
-      cursor:pointer;
-      transition:background .2s, transform .04s;
-    }
-    button:hover{background:var(--rojo-osc)}
-    button:active{transform:translateY(1px)}
-    .helper{margin:10px 2px 0;color:var(--gris);font-size:13px;line-height:1.45}
-    .stats{margin-top:14px;font-size:13px;color:var(--gris)}
-    .results{margin-top:18px;display:grid;gap:12px}
-    .result{
-      background:#fff;
-      border:1px solid var(--gris-borde);
-      border-radius:18px;
-      padding:16px;
-      box-shadow:0 8px 24px rgba(17,24,39,.05);
-    }
-    .badge{
-      display:inline-block;
-      background:#fee4e2;
-      color:#b42318;
-      border-radius:999px;
-      padding:7px 11px;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.02em;
-      text-transform:uppercase;
-      margin-bottom:10px;
-    }
-    .name{font-size:20px;font-weight:800;line-height:1.15;margin:0 0 8px}
-    .role{margin:0;color:#344054;font-size:15px;font-weight:600}
-    .empty,.notice{
-      margin-top:18px;
-      background:#fff;
-      border:1px dashed #d0d5dd;
-      border-radius:18px;
-      padding:18px;
-      color:#475467;
-      line-height:1.5;
-    }
-    .footer{margin-top:22px;color:#667085;font-size:12px;text-align:center}
-    .disclaimer{margin-top:8px}
-    @media (min-width: 700px){
-      .wrap{padding:24px 20px 48px}
-      .search-row{flex-direction:row}
-      .search-row input{flex:1}
-      .search-row button{width:190px}
-      .search-card{padding:18px}
-      .result{padding:18px}
-    }
-    .cookie-banner{position:fixed;bottom:12px;left:12px;right:12px;max-width:640px;margin:auto;background:white;border:1px solid #ddd;border-radius:14px;padding:16px;box-shadow:0 8px 40px #0003;z-index:10;font-size:14px;line-height:1.5}
-    .cookie-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .cookie-actions button{flex:1;min-width:110px;padding:10px}
-    .cookie-actions .reject{background:#555}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#b80d21">
+<title>Consulta de mesas electorales | Área Campo de Gibraltar</title>
+<meta name="description" content="Consulta por tus dos apellidos las designaciones de mesas electorales disponibles en el Campo de Gibraltar.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c80d27;--dark:#10223e;--muted:#59677b;--bg:#f6f7f9;--line:#e8eaf0}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--dark);background:var(--bg)}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}.container{width:min(1120px,calc(100% - 36px));margin:auto}.header{background:white;border-bottom:1px solid var(--line);position:relative;z-index:2}.head-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:86px}.logo{width:170px;max-width:38vw;height:auto;display:block}.nav{display:flex;align-items:center;gap:10px}.nav a{padding:12px 17px;text-decoration:none;font-weight:750;font-size:14px;border-radius:10px}.nav a.active{background:var(--red);color:white}.share{border:0;background:transparent;color:var(--dark);font-weight:700;font-size:14px;padding:12px}.hero{background:linear-gradient(100deg,#fff 0%,#fff 48%,#f7e9e9 100%);overflow:hidden}.hero-inner{min-height:390px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:20px;position:relative;padding:56px 0 82px}.eyebrow{font-size:13px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}h1{font-size:clamp(39px,5.5vw,72px);line-height:1.02;letter-spacing:-.055em;margin:20px 0 22px;font-weight:900}h1 span{display:inline-block;background:var(--red);color:#fff;padding:3px 15px 9px;border-radius:12px;transform:skew(-3deg)}.intro{font-size:18px;line-height:1.65;color:#34435a;max-width:550px;margin:0}.art{height:300px;position:relative;display:flex;align-items:center;justify-content:center}.art:before{content:"";position:absolute;inset:-70px -120px -80px 0;background:radial-gradient(circle at 60% 50%,#e8b4b7,transparent 62%)}.ballot{position:relative;font-size:180px;filter:drop-shadow(0 22px 24px #7c16203d);transform:rotate(-6deg)}.art-label{position:absolute;bottom:10px;right:4%;background:#fff;border:1px solid #eee;border-radius:50px;padding:10px 18px;font-weight:800;color:var(--red);box-shadow:0 8px 20px #0001}.search-wrap{margin-top:-54px;position:relative;z-index:1}.search-card{background:white;border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 60px #14213d18;padding:34px 38px}.search-heading{display:flex;gap:18px;align-items:center;margin-bottom:26px}.search-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;background:#fff0f1;color:var(--red);font-size:31px;flex-shrink:0}.search-heading h2{font-size:clamp(23px,3vw,30px);letter-spacing:-.03em;margin:0 0 7px}.search-heading p{color:var(--muted);margin:0;font-size:14px;line-height:1.5}.fields{display:grid;grid-template-columns:1fr 190px;gap:12px}.input{border:1px solid #cfd5de;border-radius:12px;padding:17px 18px;width:100%;outline:none;min-width:0;font-size:16px}.input:focus{border-color:var(--red);box-shadow:0 0 0 4px #c80d271c}.primary{border:0;background:var(--red);color:#fff;border-radius:12px;padding:16px 20px;font-weight:850;font-size:16px}.primary:hover{background:#a8071c}.note{background:#fff0f1;color:#7f1b28;padding:15px 17px;border-radius:12px;font-size:13px;line-height:1.55;margin-top:18px}.dataset{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.dataset label{font-size:13px;font-weight:800}.dataset select{border:1px solid #d8dce5;border-radius:9px;background:#fff;padding:10px;max-width:100%;font-size:14px}.results{margin-top:20px;display:grid;gap:12px}.result{background:white;border:1px solid var(--line);padding:23px;border-radius:16px;box-shadow:0 4px 18px #00000008}.result h3{margin:5px 0 10px;font-size:21px}.tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);font-weight:900}.result p{margin:5px 0;color:#4c5c71}.feedback{margin-top:18px;background:#fff;border:1px solid var(--line);padding:17px;border-radius:13px;line-height:1.5;color:#405067}.features{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:45px auto}.feature{text-align:center;padding:18px;border-right:1px solid #e0e3e9}.feature:last-child{border:0}.feature .symbol{color:var(--red);font-size:33px;margin-bottom:13px}.feature b{display:block;font-size:15px}.feature small{display:block;color:var(--muted);margin-top:6px;line-height:1.5}.upcoming{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 34px;display:flex;align-items:center;justify-content:space-between;gap:25px;margin:12px auto 44px;box-shadow:0 8px 25px #00000007}.upcoming strong{font-size:24px;display:block;margin-top:7px}.upcoming .pill{color:var(--red);font-weight:850;font-size:13px;text-transform:uppercase}.upcoming p{color:var(--muted);line-height:1.55;margin:8px 0 0}.upcoming .calendar{font-size:60px}.footer{background:#10223e;color:#fff;padding:36px 0 24px}.footer-main{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-logo{width:170px;background:#fff;border-radius:9px;padding:9px}.footer p{color:#d0d8e5;font-size:14px}.footer-bottom{border-top:1px solid #ffffff30;margin-top:25px;padding-top:18px;font-size:12px;color:#d1d8e2;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer-bottom a{margin-right:14px}.cookie{position:fixed;bottom:15px;left:15px;right:15px;max-width:620px;margin:auto;background:#fff;border:1px solid #ddd;box-shadow:0 12px 55px #0003;border-radius:16px;padding:18px;z-index:10;font-size:14px;line-height:1.5}.cookie-actions{display:flex;gap:10px;margin-top:12px}.cookie-actions button{flex:1;border:0;border-radius:10px;padding:11px;font-weight:750}.cookie-actions .accept{background:var(--red);color:#fff}.cookie-actions .reject{background:#eef0f3;color:var(--dark)}[hidden]{display:none!important}@media(max-width:720px){.head-inner{min-height:70px}.logo{width:138px}.nav{gap:0}.nav a{display:none}.nav a.active{display:block;padding:10px;font-size:12px}.share{font-size:12px;padding:6px}.hero-inner{grid-template-columns:1fr;padding:40px 0 92px;min-height:0}.art{display:none}h1{font-size:clamp(38px,9.5vw,55px)}.intro{font-size:15px}.search-card{padding:23px 18px;border-radius:19px}.search-heading{gap:12px}.search-icon{width:48px;height:48px;font-size:25px}.fields{grid-template-columns:1fr}.dataset{align-items:flex-start;flex-direction:column}.dataset select{width:100%}.features{grid-template-columns:1fr 1fr;margin:25px auto}.feature:nth-child(2){border-right:0}.feature:nth-child(-n+2){border-bottom:1px solid #e0e3e9}.feature{padding:20px 9px}.upcoming{padding:22px;align-items:flex-start}.upcoming .calendar{font-size:38px}.upcoming strong{font-size:20px}.footer-main{align-items:flex-start;flex-direction:column}.footer-bottom{line-height:1.8}}
+</style>
+<script>
+const ANALYTICS_ID='G-4C4MCX08R1';
+function enableAnalytics(){if(window.analyticsEnabled)return;window.analyticsEnabled=true;window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',ANALYTICS_ID,{anonymize_ip:true});const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ANALYTICS_ID;document.head.appendChild(s)}
+try{if(localStorage.getItem('analytics-consent')==='yes')enableAnalytics()}catch(e){}
+</script>
 </head>
 <body>
-  <div class="topbar">Consulta ciudadana · Mesa electoral 2026</div>
-  <main class="wrap">
-    <section class="brand">
-      <div class="brand-name">Área Campo de Gibraltar</div>
-      <h1>Comprueba si te ha tocado mesa electoral</h1>
-      <p class="lead">Introduce tus <strong>dos apellidos</strong> para buscar en el listado. La web te mostrará tu nombre completo y el cargo asignado: presidente/a, vocal, suplencia u otros.</p>
-    </section>
-
-    <section class="search-card">
-      <label for="query">Escribe tus dos apellidos</label>
-      <div class="search-row">
-        <input id="query" type="text" placeholder="Ejemplo: García Pérez" autocomplete="name" />
-        <button id="searchBtn">Buscar</button>
-      </div>
-      <p class="helper">Consejo: no hace falta poner tildes. También funciona con mayúsculas o minúsculas.</p>
-      <div class="stats" id="stats"></div>
-    </section>
-
-    <div id="message" class="notice">Consulta optimizada para móvil. Escribe los apellidos y pulsa en buscar.</div>
-    <section id="results" class="results" aria-live="polite"></section>
-
-    <div class="footer">
-      <div>Especial de servicio público de <strong>Área Campo de Gibraltar</strong></div>
-      <div class="disclaimer">Verifica siempre cualquier duda con la notificación oficial o la administración competente.</div>
-    </div>
-  </main>
-  <div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-label="Preferencias de analítica">
-    Utilizamos Google Analytics para medir visitas y número de búsquedas, sin enviar los apellidos introducidos. Solo se activa si aceptas. Puedes cambiar tu decisión borrando los datos del sitio en tu navegador.
-    <div class="cookie-actions"><button id="rejectAnalytics" class="reject">Rechazar</button><button id="acceptAnalytics">Aceptar analítica</button></div>
-  </div>
-  <script>
-    const cookieBanner = document.getElementById('cookieBanner');
-    if (!localStorage.getItem('analytics-consent')) cookieBanner.hidden = false;
-    document.getElementById('acceptAnalytics').onclick = () => {localStorage.setItem('analytics-consent','yes');cookieBanner.hidden=true;enableAnalytics();};
-    document.getElementById('rejectAnalytics').onclick = () => {localStorage.setItem('analytics-consent','no');cookieBanner.hidden=true;};
-  </script>
-  <script src="data.js"></script>
-  <script>
-    const resultsEl = document.getElementById('results');
-    const messageEl = document.getElementById('message');
-    const statsEl = document.getElementById('stats');
-    const inputEl = document.getElementById('query');
-    const total = personas.length;
-    statsEl.textContent = `${total} registros cargados`;
-
-    function normalize(text) {
-      return (text || '')
-        .toString()
-        .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9ñ\s]/gi, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    const enriched = personas.map(p => ({
-      ...p,
-      _norm: normalize(p.nombre),
-    }));
-
-    function search() {
-      const raw = inputEl.value.trim();
-      const q = normalize(raw);
-      resultsEl.innerHTML = '';
-      if (!q) {
-        messageEl.className = 'notice';
-        messageEl.textContent = 'Introduce al menos un apellido para realizar la búsqueda.';
-        return;
-      }
-
-      const terms = q.split(' ').filter(Boolean);
-      const found = enriched.filter(p => terms.every(t => p._norm.includes(t)));
-      if (window.analyticsEnabled && typeof gtag === 'function') gtag('event','busqueda_mesa_electoral',{resultado:found.length ? 'con_coincidencias' : 'sin_coincidencias'});
-
-      if (!found.length) {
-        messageEl.className = 'empty';
-        messageEl.textContent = 'No aparece ninguna coincidencia con esos apellidos. Revisa si están bien escritos o prueba sin tildes compuestas.';
-        return;
-      }
-
-      messageEl.className = 'notice';
-      messageEl.textContent = found.length === 1
-        ? 'Se ha encontrado 1 coincidencia.'
-        : `Se han encontrado ${found.length} coincidencias.`;
-
-      found
-        .sort((a,b) => a.nombre.localeCompare(b.nombre, 'es'))
-        .forEach(item => {
-          const article = document.createElement('article');
-          article.className = 'result';
-          article.innerHTML = `
-            <div class="badge">Resultado</div>
-            <h2 class="name">${item.nombre}</h2>
-            <p class="role">Cargo: <strong>${item.cargo}</strong></p>
-          `;
-          resultsEl.appendChild(article);
-        });
-    }
-
-    document.getElementById('searchBtn').addEventListener('click', search);
-    inputEl.addEventListener('keydown', e => {
-      if (e.key === 'Enter') search();
-    });
-  </script>
-</body>
-</html>
+<header class="header"><div class="container head-inner">
+<a href="/" aria-label="Área Campo de Gibraltar, inicio"><img class="logo" src="https://www.grupoareacomunicacion.com/wp-content/uploads/2019/10/AreaCG-1024x439.png" alt="Área Campo de Gibraltar"></a>
+<nav class="nav" aria-label="Navegación"><a class="active" href="#consulta">Mesa electoral</a><a href="#29n">29N</a><button class="share" id="shareBtn" type="button">↗ Compartir</button></nav>
+</div></header>
+<section class="hero"><div class="container hero-inner"><div>
+<div class="eyebrow">Especial electoral · Área Campo de Gibraltar</div>
+<h1>Consulta tu<br><span>mesa electoral</span></h1>
+<p class="intro">Comprueba si has sido designado para formar parte de una mesa electoral. Busca por tus dos apellidos y consulta el cargo asignado en los listados disponibles.</p>
+</div><div class="art" aria-hidden="true"><span class="ballot">🗳️</span><span class="art-label">Consulta ciudadana</span></div></div></section>
+<main>
+<div class="container search-wrap" id="consulta"><section class="search-card">
+<div class="search-heading"><div class="search-icon" aria-hidden="true">♙</div><div><h2>Introduce tus apellidos</h2><p>Escribe los dos apellidos para localizar coincidencias en el listado seleccionado.</p></div></div>
+<div class="dataset"><label for="dataset">Listado de consulta</label><select id="dataset"><option value="actual">La Línea de la Concepción · listado disponible</option><option value="29n">Elecciones 29N · pendiente de incorporar</option></select></div>
+<div class="fields"><input id="query" class="input" type="search" autocomplete="off" placeholder="Primer apellido  Segundo apellido" aria-label="Tus dos apellidos"><button class="primary" id="searchBtn" type="button">⌕ &nbsp;Buscar</button></div>
+<div class="note">ⓘ &nbsp;La consulta muestra el nombre completo y el cargo (presidencia, vocalía o suplencia) cuando constan en el listado. Comprueba siempre la designación mediante la notificación oficial.</div>
+<div id="feedback" class="feedback" role="status" aria-live="polite">Selecciona un listado, escribe tus apellidos y pulsa Buscar.</div>
+<div id="results" class="results" aria-live="polite"></div>
+</section></div>
+<div class="container features">
+<div class="feature"><div class="symbol">ϟ</div><b>Rápido y sencillo</b><small>Consulta en segundos</small></div>
+<div class="feature"><div class="symbol">♢</div><b>Listados disponibles</b><small>Información por convocatoria</small></div>
+<div class="feature"><div class="symbol">▯</div><b>Adaptado a móvil</b><small>Desde cualquier dispositivo</small></div>
+<div class="feature"><div class="symbol">♧</div><b>Sin registro</b><small>No necesitas crear una cuenta</small></div>
+</div>
+<section class="container upcoming" id="29n"><div><span class="pill">Próxima actualización</span><strong>Elecciones del 29 de noviembre · 29N</strong><p>El espacio para el nuevo listado ya está preparado. Se habilitará la consulta cuando se incorporen y revisen los datos correspondientes.</p></div><div class="calendar" aria-hidden="true">📅</div></section>
+</main>
+<footer class="footer"><div class="container"><div class="footer-main"><img class="footer-logo" src="https://www.grupoareacomunicacion.com/wp-content/uploads/2019/10/AreaCG-1024x439.png" alt="Área Campo de Gibraltar"><p>Información de servicio público para el Campo de Gibraltar.</p></div><div class="footer-bottom"><span>© Área Campo de Gibraltar · Herramienta informativa no oficial</span><span><a href="https://www.grupoareacomunicacion.com/">Grupo Área Comunicación</a> · <button id="cookieSettings" type="button" style="border:0;background:none;color:white;text-decoration:underline;cursor:pointer">Preferencias de analítica</button></span></div></div></footer>
+<div class="cookie" id="cookieBanner" role="dialog" aria-label="Preferencias de analítica" hidden>Utilizamos Google Analytics para conocer visitas y número de búsquedas, sin transmitir los apellidos introducidos. Solo se activa si aceptas.<div class="cookie-actions"><button class="reject" id="rejectAnalytics">Rechazar</button><button class="accept" id="acceptAnalytics">Aceptar analítica</button></div></div>
+<script src="data.js"></script><script src="datos-29n.js"></script>
+<script>
+const q=document.getElementById('query'),ds=document.getElementById('dataset'),results=document.getElementById('results'),feedback=document.getElementById('feedback');
+function normalize(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9ñ\s]/g,' ').replace(/\s+/g,' ').trim()}
+function currentData(){return ds.value==='29n'?(window.personas29N||[]):(typeof personas!=='undefined'?personas:[])}
+function reset(){results.replaceChildren();feedback.textContent=ds.value==='29n'&&!currentData().length?'El listado del 29N todavía no está disponible. Se activará cuando se incorporen los datos.':'Escribe tus dos apellidos y pulsa Buscar.'}
+ds.addEventListener('change',reset);
+function search(){results.replaceChildren();const list=currentData();if(!list.length){feedback.textContent='Este listado todavía no está disponible para consultar.';return}const value=normalize(q.value);const terms=value.split(' ').filter(Boolean);if(terms.length<2){feedback.textContent='Introduce tus dos apellidos para realizar la búsqueda.';return}const found=list.filter(p=>terms.every(t=>normalize(p.nombre).includes(t)));feedback.textContent=found.length?('Se han encontrado '+found.length+' coincidencia(s).'):'No se han encontrado coincidencias. Comprueba los apellidos y la convocatoria seleccionada.';if(window.analyticsEnabled&&typeof gtag==='function')gtag('event','busqueda_mesa_electoral',{resultado:found.length?'con_coincidencias':'sin_coincidencias',convocatoria:ds.value});found.slice(0,50).forEach(p=>{const card=document.createElement('article');card.className='result';const tag=document.createElement('div');tag.className='tag';tag.textContent=p.municipio||'Resultado de consulta';const name=document.createElement('h3');name.textContent=p.nombre||'';const role=document.createElement('p');role.textContent='Cargo: '+(p.cargo||'No especificado');card.append(tag,name,role);results.append(card)});if(found.length>50)feedback.textContent+=' Se muestran las primeras 50 coincidencias; concreta los apellidos.'}
+document.getElementById('searchBtn').addEventListener('click',search);q.addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+document.getElementById('shareBtn').addEventListener('click',async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);alert('Enlace copiado')}else alert(location.href)}catch(e){}});
+const banner=document.getElementById('cookieBanner');function showCookie(){banner.hidden=false}try{if(!localStorage.getItem('analytics-consent'))showCookie()}catch(e){showCookie()}
+document.getElementById('cookieSettings').onclick=showCookie;
+document.getElementById('acceptAnalytics').onclick=()=>{try{localStorage.setItem('analytics-consent','yes')}catch(e){}banner.hidden=true;enableAnalytics()};
+document.getElementById('rejectAnalytics').onclick=()=>{try{localStorage.setItem('analytics-consent','no')}catch(e){}banner.hidden=true;if(window.analyticsEnabled){location.reload()}};
+</script></body></html>
