@@ -1,15 +1,23 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HK68ZNEDWM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HK68ZNEDWM');
-</script>
+  <!-- Analytics: only loaded after explicit consent -->
+  <script>
+    const ANALYTICS_ID = 'G-4C4MCX08R1';
+    function enableAnalytics() {
+      if (window.analyticsEnabled) return;
+      window.analyticsEnabled = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){dataLayer.push(arguments);};
+      gtag('js', new Date());
+      gtag('config', ANALYTICS_ID, {anonymize_ip:true});
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ANALYTICS_ID;
+      document.head.appendChild(script);
+    }
+    if (localStorage.getItem('analytics-consent') === 'yes') enableAnalytics();
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Consulta mesa electoral | Área Campo de Gibraltar</title>
@@ -159,6 +167,10 @@
       .search-card{padding:18px}
       .result{padding:18px}
     }
+    .cookie-banner{position:fixed;bottom:12px;left:12px;right:12px;max-width:640px;margin:auto;background:white;border:1px solid #ddd;border-radius:14px;padding:16px;box-shadow:0 8px 40px #0003;z-index:10;font-size:14px;line-height:1.5}
+    .cookie-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .cookie-actions button{flex:1;min-width:110px;padding:10px}
+    .cookie-actions .reject{background:#555}
   </style>
 </head>
 <body>
@@ -188,6 +200,16 @@
       <div class="disclaimer">Verifica siempre cualquier duda con la notificación oficial o la administración competente.</div>
     </div>
   </main>
+  <div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-label="Preferencias de analítica">
+    Utilizamos Google Analytics para medir visitas y número de búsquedas, sin enviar los apellidos introducidos. Solo se activa si aceptas. Puedes cambiar tu decisión borrando los datos del sitio en tu navegador.
+    <div class="cookie-actions"><button id="rejectAnalytics" class="reject">Rechazar</button><button id="acceptAnalytics">Aceptar analítica</button></div>
+  </div>
+  <script>
+    const cookieBanner = document.getElementById('cookieBanner');
+    if (!localStorage.getItem('analytics-consent')) cookieBanner.hidden = false;
+    document.getElementById('acceptAnalytics').onclick = () => {localStorage.setItem('analytics-consent','yes');cookieBanner.hidden=true;enableAnalytics();};
+    document.getElementById('rejectAnalytics').onclick = () => {localStorage.setItem('analytics-consent','no');cookieBanner.hidden=true;};
+  </script>
   <script src="data.js"></script>
   <script>
     const resultsEl = document.getElementById('results');
@@ -225,6 +247,7 @@
 
       const terms = q.split(' ').filter(Boolean);
       const found = enriched.filter(p => terms.every(t => p._norm.includes(t)));
+      if (window.analyticsEnabled && typeof gtag === 'function') gtag('event','busqueda_mesa_electoral',{resultado:found.length ? 'con_coincidencias' : 'sin_coincidencias'});
 
       if (!found.length) {
         messageEl.className = 'empty';
